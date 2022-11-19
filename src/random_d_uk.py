@@ -5,7 +5,7 @@ from requests import get
 
 
 class RandomDuk:
-	def __init__(self):
+	def __init__(self) -> None:
 		self.api = "https://random-d.uk/api"
 		self.headers = {
 			"user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36"
@@ -14,7 +14,7 @@ class RandomDuk:
 	def save_file(
 			self,
 			content: bytes,
-			location: str = getcwd()):
+			location: str = getcwd()) -> bool:
 		with open(
 			Path(location).joinpath(f"{time() * 1000}.jpg"),
 		mode="wb+",
@@ -23,27 +23,27 @@ class RandomDuk:
 			file.close()
 		return True
 
-	def get_random_image_url(self):
+	def get_random_image_url(self) -> dict:
 		return get(
 			f"{self.api}/random",
 			headers=self.headers).json()
 	
-	def get_random_image(self):
+	def get_random_image(self) -> bool:
 		return save_file(get(
 			f"{self.api}/random",
 			headers=self.headers).content)
 	
-	def get_all_images(self):
+	def get_all_images(self) -> dict:
 		return get(
 			f"{self.api}/list",
 			headers=self.headers).json()
 	
-	def get_image(self, image_number: int):
+	def get_image(self, image_number: int) -> bool:
 		return save_file(get(
 			f"{self.api}/{image_number}.jpg",
 			headers=self.headers).content)
 	
-	def get_gif(self, gif_number: int):
+	def get_gif(self, gif_number: int) -> bool:
 		return save_file(get(
 			f"{self.api}/{gif_number}",
 			headers=self.headers).content)
